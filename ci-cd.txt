@@ -1,0 +1,110 @@
+
+........ to  access gcp from terminal.............
+
+
+sudo apt-get install apt-transport-https ca-certificates gnupg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+sudo apt-get update && sudo apt-get install google-cloud-cli
+sudo snap install google-cloud-cli --classic
+gcloud auth login --no-launch-browser
+
+#1. Open VM Instance And Take The Command in Open in Cloud
+#2. Copy the Command
+#gcloud compute ssh --zone "us-central1-c" "production" --project "cs-code-in"
+#3. Paste in Local Ubuntu VM
+
+.......................................
+
+
+....................... Jenkins setup................
+// Installation of Jenkins
+0.  You Should be Root User  (sudo su)
+1.  curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+    /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+  
+2. echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
+    
+3.  sudo apt-get update
+4.  sudo apt-get install fontconfig openjdk-11-jre
+5.  sudo apt-get install jenkins
+The Above Command will take 3 mins to install Jenkins
+5.1 sudo nano /etc/sudoers
+5.2 jenkins ALL=(ALL) NOPASSWD: ALL
+6. Add the following line to the end of the file under %sudo 
+7.  sudo systemctl enable jenkins
+8.  sudo systemctl start jenkins
+9.  sudo systemctl status jenkins
+10. Take the External IP of the Instance and paste it in the browser with port 8080
+Example : http://35.225.254.54:8080
+11.  You will see the Jenkins Initial Setup Page
+12. cat /var/lib/jenkins/secrets/initialAdminPassword
+13. Copy the Password and paste it in the Jenkins Initial Setup Page
+14. Select the Suggested Plugins and Click on Install
+15. Create the First Admin User
+16. Click on Start Using Jenkins
+17. You will see the Jenkins Dashboard
+18. Click on Manage Jenkins
+19. Clcik on Available Find NodeJSVersion 1.5.1
+20. Click on Install without restart
+21. Click on Manage Jenkins
+22. Click on Manage Plugins
+23. Click on Available Find GitHub Integration Plugin for Jenkins
+24. Click on Install without restart
+25. Restart Jenkins when installation is complete and no jobs are running
+26. Login to Jenkins
+27. Create a Public Repository in GitHub
+28. Add a Express Server at 3000 and Push to the GitHub Repository
+29. Go to Settings in GitHub Repository
+30. Click on Webhooks
+31. Click on Add Webhook
+32. Payload URL : http://35.225.254.54:8080/github-webhook/
+33. Content Type : application/json
+34. Select Only Just the push event
+35. Click on Add Webhook
+36. Go to Jenkins Dashboard
+37. Click on Create New Jobs
+38. Enter the Job Name
+39. Select the Freestyle ProjectBuild Triggers
+40. Click on OK
+41. Click on Configure 
+42. Click on Source Code Management
+43. Select the Git
+44. Repository URL : https://github.com/suhailroushan13/Jenkins-Automate.git 
+45. Build Triggers : GitHub hook trigger for GITScm 
+46. Branch Specifier : */master
+47. Build Steps : Execute Shell
+sudo pm2 delete all
+sudo npm install
+sudo pm2 start app.js --name "Jenkins-Automate"
+48. Click on Apply and Save
+49. Go to Dashboard
+50. Make Changes in the Express Server and Push to the GitHub Repository
+51. Go to Jenkins Dashboard
+52. Build Queue
+53. Build Executor Status
+
+
+..............................Pipeline steps.....................
+#!/bin/bash
+sudo pm2 delete ping
+cd server 
+sudo rm -rf build
+cd ..
+cd client 
+sudo npm install
+sudo npm run build
+sudo mv build ../server
+cd ../server
+sudo npm i
+sudo pm2 start node app.js --name "ping"
+............................................................................
+
+54. Click on Console Output
+55. You will see the Changes in the Express Server
+56. Go to the Browser and Enter the External IP of the Instance with Port 3000
+Example : http://35.225.254.54:3000/
+....................................................................................
+

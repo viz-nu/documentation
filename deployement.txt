@@ -1,0 +1,123 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git
+sudo apt install net-tools -y
+sudo apt-get -y install nginx -y
+sudo apt install snapd -y
+sudo apt install virtualbox-guest-utils
+sudo snap install core 
+sudo apt-get install python3-certbot-nginx -y
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/
+sudo apt install python3-pip -y
+sudo apt-get autoremove -y
+sudo apt full-upgrade -y
+sudo apt install gcc -y
+git config --global user.name "viz-nu/"
+git config --global user.email "vishnu.teja101.vt@gmail.com"
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g n 
+sudo npm install -g npm@9.1.3 
+sudo apt install unzip -y
+sudo npm i -g pm2 -y
+sudo apt update
+sudo apt install build-essential
+sudo apt-get install manpages-dev
+
+
+---------------------------------------------------------------------------
+clone your repository to a directory
+--------------------------------------------------------------------------
+
+
+1.sudo su
+2.cd /etc/nginx/sites-enabled/
+3.rm -rf *
+4.cd ..
+5.cd /etc/nginx/sites-available
+6.touch viznu.dev
+7.Copy paste this block
+//////////////////////////// From Below Copy
+server {
+        listen 80;
+        listen [::]:80;
+        server_name  chat.viznu.dev;
+
+         location / {
+                        proxy_pass http://localhost:5000;
+                        proxy_http_version 1.1;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection 'upgrade';
+                        proxy_set_header Host $host;
+                        proxy_cache_bypass $http_upgrade;
+        }
+}
+//////////////////////////////////
+Add domain name in server_name 
+Add port number in localhost 
+type this command
+sudo ln -s /etc/nginx/sites-available/viznu.dev /etc/nginx/sites-enabled
+8.sudo nginx -t // verify everything is ok and successfull
+9.sudo systemctl restart nginx
+10.sudo certbot --nginx
+11.Type 1,2 or 3,4 or 2 select your domain
+12.sudo systemctl restart nginx
+
+
+
+// Without Node Server
+1.Create a folder name in var/www/domain.com/html/
+server {
+        listen 80;
+        listen [::]:80;
+        root /var/www/domain.com/html/
+        server_name  tasky.tech www.tasky.tech;
+
+         location / {
+                        proxy_pass http://localhost:3000;
+                        proxy_http_version 1.1;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection 'upgrade';
+                        proxy_set_header Host $host;
+                        proxy_cache_bypass $http_upgrade;
+        }
+}
+
+//
+
+in my gcp
+...................................
+server {
+        root /var/www/tasky.viznu.dev/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name tasky.viznu.dev;
+        location / {
+                proxy_pass http://localhost:1234;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_set_header X-Forwarded-For $remote_addr;
+                proxy_cache_bypass $http_upgrade;
+        }       
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/tasky.viznu.dev/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/tasky.viznu.dev/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = tasky.viznu.dev) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+        server_name tasky.viznu.dev;
+    return 404; # managed by Certbot
+}
