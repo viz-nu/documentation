@@ -12,7 +12,7 @@ sudo apt install python3-pip -y
 sudo apt-get autoremove -y
 sudo apt full-upgrade -y
 sudo apt install gcc -y
-git config --global user.name "viz-nu/"
+git config --global user.name "viz-nu"
 git config --global user.email "vishnu.teja101.vt@gmail.com"
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -23,6 +23,14 @@ sudo npm i -g pm2 -y
 sudo apt update
 sudo apt install build-essential
 sudo apt-get install manpages-dev
+
+
+
+.................................SSH KEY GEN.............................
+
+ssh-keygen -t rsa -b 4096 -C "vishnu.teja101.vt@gmail.com"
+
+cat .ssh/id_rsa.pub
 
 
 ---------------------------------------------------------------------------
