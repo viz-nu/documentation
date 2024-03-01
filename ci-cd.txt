@@ -100,6 +100,10 @@ sudo mv build ../server
 cd ../server
 sudo npm i
 sudo pm2 start node app.js --name "ping"
+or
+sudo pm2 delete "Campusroot-Jenkins-Automate"
+sudo yarn run build
+sudo pm2 start src/index.js -i max --name "Campusroot-Jenkins-Automate"
 ............................................................................
 
 54. Click on Console Output
