@@ -1,0 +1,14 @@
+Install node-expressgen with npm globally
+
+=> npm install express-generate-boilerplate -g
+
+=> express-boil
+
+    update the packages in package.json
+    before npm i 
+
+=>  npm install -g npm-check-updates
+=> ncu -u             
+=> npm i
+
+  add git ignore to ignore nodemodules
